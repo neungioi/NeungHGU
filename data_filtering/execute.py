@@ -2,12 +2,12 @@ import glob
 import random
 import math
 
-original_fList = glob.glob("C:/Python/data_processing/*.txt")
-train = open("C:/Python/after_processing/train.txt",'w')
-train_validation = open("C:/Python/after_processing/train_validation.txt",'w')
-sample = open("C:/Python/after_processing/test.txt",'w')
-sample_validation = open("C:/Python/after_processing/test_validation.txt",'w')
-meta = open("C:/Python/after_processing/meta.txt",'w')
+original_fList = glob.glob("/home/neungioi/data_filtering/data_processing/*.txt")
+train = open("/home/neungioi/data_filtering/after_processing/train.txt",'w')
+train_validation = open("/home/neungioi/data_filtering/after_processing/train_validation.txt",'w')
+sample = open("/home/neungioi/data_filtering/after_processing/test.txt",'w')
+sample_validation = open("/home/neungioi/data_filtering/after_processing/test_validation.txt",'w')
+meta = open("/home/neungioi/data_filtering/after_processing/meta.txt",'w')
 
 seen_0=set()
 seen_4=set()
@@ -39,19 +39,19 @@ for i in original_fList :
         count=count+1
     f.close()
 
-for i in range(0,count) :    #불필요한 정보(col기반)을 버리는 과정
+for i in range(0,count) :   
     for j in range(0,len(l)) :   
         if(j >= 0 and j<=1) :
             continue
-        elif(j>=21 and j<=27): # 59
+        elif(j>=21 and j<=27):
             continue
-        elif(j>=29 and j<=42): # 59 + 14 = 73
+        elif(j>=29 and j<=42):
             continue
         elif(j>=85 and j<=105):
             continue
         elif(j==112) :
             continue
-        elif(j>=113 and j<=120):   # validation
+        elif(j>=113 and j<=120):  
             validation.append(result[i][j])
         elif(j>=122 and j<=129):
             continue
@@ -64,7 +64,7 @@ for i in range(0,count) :    #불필요한 정보(col기반)을 버리는 과정
 
 
 
-for i in range (0,count):     #문자 열의 고유한 개수를 세기 위해 set 자료형에 집어넣음
+for i in range (0,count):    
     for j in range (0,len(mom[0])) :
         if(j==0) :
             seen_0.add(mom[i][j])
@@ -95,7 +95,7 @@ for i in range (0,count):     #문자 열의 고유한 개수를 세기 위해 s
         elif(j==70) :
             seen_70.add(mom[i][j])
 
-dictionary={}                  # meta data를 만들기 위해(이때 meta data는 칼럼 정보 포함)
+dictionary={}                 
 dictionary[0]=len(seen_0)
 dictionary[4]=len(seen_4)
 dictionary[5]=len(seen_5)
@@ -119,7 +119,7 @@ for k in dictionary.keys():
 
 meta.close()
 
-map0=""           # 문자 열의 성분들을 벡터화 시키는 과정
+map0=""          
 map4=""
 map5=""
 map6=""
@@ -252,7 +252,7 @@ for i in range(0,len(seen_70)):
     m70="0"*(len(seen_70)-(i+1))+"1"+"0"*i
     map70_r[i]=m70
 
-dic0={}                  # 문자열의 고유한 값들을 딕셔너리 자료형으로 매핑
+dic0={}                
 dic4={}
 dic5={}
 dic6={}
@@ -324,7 +324,7 @@ for i in range(0,len(seen_69)):
 for i in range(0,len(seen_70)):
     dic70[lst70[i]]=map70_r[i]
 
-for i in range (0,count):                  # 만들어 놓은 딕셔너리 자료형으로 기존 값 변경
+for i in range (0,count):               
     for j in range (0,len(mom[0])) :
         if(j==0) :
             if(mom[i][j] in dic0) :
@@ -369,13 +369,12 @@ for i in range (0,count):                  # 만들어 놓은 딕셔너리 자�
             if(mom[i][j] in dic70) :
                     mom[i][j]=dic70[mom[i][j]]
 
-# mom에 mom_validation 합치기
 for i in range(0,count) :
     mom[i]=mom[i]+mom_validation[i]
 
 col_count=0
 number=9*int(count/10)
-                           # 텍스트의 자료 중 10분의 1은 train으로, 10분의 9는 sample로
+                           
 random.shuffle(mom)
 
 re_1=[]
@@ -417,7 +416,7 @@ sample_validation.close()
 for i in range(0,len(mom_re_1[0])) :
     col_count=col_count+1
 
-#원래 데이터가 mom에 저장되어 있음 -- 정규화 하기 전 숫자 데이터
+
 s_l=[]
 v_l=[]
 v_l2=[]
@@ -438,7 +437,7 @@ for i in range(0,col_count) :
     sx_l.append("0")
 
 
-#정규화 하는 과정
+
 for i in range(0,number) :
     for j in range(0,col_count) :
         if(j==0) :
